@@ -2,4 +2,4 @@ function somar(num1: number, num2: number){
     console.log(num1 + num2);
 }
 
-somar('2', 3);
+somar(2, 3);
