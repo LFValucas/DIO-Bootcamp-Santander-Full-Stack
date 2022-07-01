@@ -9,16 +9,16 @@
 // Todas as requisições necessárias para as atividades acima já estão prontas, mas a implementação delas ficou pela metade (não vou dar tudo de graça).
 // Atenção para o listener do botão login-button que devolve o sessionID do usuário
 // É necessário fazer um cadastro no https://www.themoviedb.org/ e seguir a documentação do site para entender como gera uma API key https://developers.themoviedb.org/3/getting-started/introduction
-/*
+
 var apiKey = '3f301be7381a03ad8d352314dcc3ec1d';
-let apiKey;
-let requestToken;
-let username;
-let password;
-let sessionId;
+//let apiKey; Removido o problema de duplicação de variável
+let requestToken: string;
+let username: string;
+let password: string;
+let sessionId: string;
 let listId = '7101979';
 
-let loginButton = document.getElementById('login-button');
+let loginButton = (<HTMLButtonElement>document.getElementById('login-button'));
 let searchButton = document.getElementById('search-button');
 let searchContainer = document.getElementById('search-container');
 
@@ -28,13 +28,13 @@ loginButton.addEventListener('click', async () => {
   await criarSessao();
 })
 
-searchButton.addEventListener('click', async () => {
+searchButton?.addEventListener('click', async () => {
   let lista = document.getElementById("lista");
   if (lista) {
     lista.outerHTML = "";
   }
-  let query = document.getElementById('search').value;
-  let listaDeFilmes = await procurarFilme(query);
+  let query = (<HTMLInputElement>document.getElementById('search')).value;
+  let listaDeFilmes: any = await procurarFilme(query);
   let ul = document.createElement('ul');
   ul.id = "lista"
   for (const item of listaDeFilmes.results) {
@@ -43,21 +43,23 @@ searchButton.addEventListener('click', async () => {
     ul.appendChild(li)
   }
   console.log(listaDeFilmes);
-  searchContainer.appendChild(ul);
+  if(searchContainer != null){
+    searchContainer.appendChild(ul);
+  }
 })
 
 function preencherSenha() {
-  password = document.getElementById('senha').value;
+  password = (<HTMLInputElement>document.getElementById('senha')).value;
   validateLoginButton();
 }
 
 function preencherLogin() {
-  username =  document.getElementById('login').value;
+  username =  (<HTMLInputElement>document.getElementById('login')).value;
   validateLoginButton();
 }
 
 function preencherApi() {
-  apiKey = document.getElementById('api-key').value;
+  apiKey = (<HTMLInputElement>document.getElementById('api-key')).value;
   validateLoginButton();
 }
 
@@ -70,7 +72,7 @@ function validateLoginButton() {
 }
 
 class HttpClient {
-  static async get({url, method, body = null}) {
+  static async get({url, method, body = null}: {url: string, method: string, body: string | null}) {
     return new Promise((resolve, reject) => {
       let request = new XMLHttpRequest();
       request.open(method, url, true);
@@ -101,12 +103,12 @@ class HttpClient {
   }
 }
 
-async function procurarFilme(query) {
+async function procurarFilme(query:string) {
   query = encodeURI(query)
   console.log(query)
   let result = await HttpClient.get({
-    url: `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}`,
-    method: "GET"
+      url: `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}`,
+      method: "GET"
   })
   return result
 }
@@ -178,7 +180,7 @@ async function pegarLista() {
   })
   console.log(result);
 }
-*/
+
 
 {/* <div style="display: flex;">
   <div style="display: flex; width: 300px; height: 100px; justify-content: space-between; flex-direction: column;">
